@@ -20,6 +20,8 @@ mongoose
     console.log("Connection error", error);
   });
 
+mongoose.set("strictPopulate", false);
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
