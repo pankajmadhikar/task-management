@@ -22,23 +22,23 @@ export const createProject = async (req, res) => {
   }
 };
 
-export const getAllProject = async (req, res) => {
-  try {
-    const allProjects = await ProjectModel.find();
-    return responses.success(res, "Fetched all products successfully", {
-      allProjects,
-      quantity: allProjects.length,
-    });
-  } catch (error) {
-    return responses.serverError(res);
-  }
-};
-
 export const getProjects = async (req, res) => {
   try {
-    const { userId } = req.user;
+    const { userId, userRole } = req.user;
+    const { includeDeleted } = req.query;
+    console.log("userRole", userRole);
+    if (userRole === "admin" && includeDeleted) {
+      const allProjects = await ProjectModel.findWithDeleted();
+      return responses.success(res, "Fetched all products successfully", {
+        allProjects,
+        quantity: allProjects.length,
+      });
+    }
     const getProjects = await ProjectModel.find({ createdBy: userId });
-    return responses.success(res, "Projects fetched successfully", getProjects);
+    return responses.success(res, "Projects fetched successfully", {
+      getProjects,
+      total: getProjects.length,
+    });
   } catch (error) {
     console.log("eroor", error);
     return responses.serverError(res);
