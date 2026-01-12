@@ -23,8 +23,8 @@ export const authMiddleware = (req, res, next) => {
 
 export const requireRole = (roles) => {
   return (req, res, next) => {
-    const { userId, role } = req.user;
-    const isValidRole = roles?.find((r) => r === role);
+    const { userId, userRole } = req.user;
+    const isValidRole = roles?.find((r) => r === userRole);
     if (!isValidRole) {
       return responses.manualResponse(
         res,
