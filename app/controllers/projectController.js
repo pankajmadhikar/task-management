@@ -44,3 +44,22 @@ export const getProjects = async (req, res) => {
     return responses.serverError(res);
   }
 };
+
+export const deleteProject = async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    if (!projectId) {
+      return responses.manualResponse(res, 400, "Project ID is required");
+    }
+    console.log("projectId", projectId);
+    const project = await ProjectModel.findById(projectId);
+    if (!project) {
+      return responses.notFound(res);
+    }
+    await project.delete();
+    return responses.deleted(res);
+  } catch (error) {
+    console.log("error", error);
+    return responses.serverError(res);
+  }
+};

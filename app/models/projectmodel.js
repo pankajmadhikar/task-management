@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import MongooseDelete from "mongoose-delete";
 
 const ProjectSchema = new mongoose.Schema(
   {
@@ -9,5 +10,11 @@ const ProjectSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// ProjectSchema soft delete plugin
+ProjectSchema.plugin(MongooseDelete, {
+  deletedAt: true,
+  overrideMethods: "all",
+});
 
 export const ProjectModel = mongoose.model("Project", ProjectSchema);
