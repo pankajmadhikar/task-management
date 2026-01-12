@@ -21,3 +21,26 @@ export const createProject = async (req, res) => {
     return responses.serverError(res);
   }
 };
+
+export const getAllProject = async (req, res) => {
+  try {
+    const allProjects = await ProjectModel.find();
+    return responses.success(res, "Fetched all products successfully", {
+      allProjects,
+      quantity: allProjects.length,
+    });
+  } catch (error) {
+    return responses.serverError(res);
+  }
+};
+
+export const getProjects = async (req, res) => {
+  try {
+    const { userId } = req.user;
+    const getProjects = await ProjectModel.find({ createdBy: userId });
+    return responses.success(res, "Projects fetched successfully", getProjects);
+  } catch (error) {
+    console.log("eroor", error);
+    return responses.serverError(res);
+  }
+};
