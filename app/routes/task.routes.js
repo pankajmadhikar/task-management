@@ -51,4 +51,4 @@ router.patch(
   updateTaskStatus
 );
 
-export const TaskRoutes = router;
+export const taskRoutes = router;
