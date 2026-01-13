@@ -4,6 +4,7 @@ import { validate } from "../middlewares/validate.js";
 import { body } from "express-validator";
 import {
   createTask,
+  getTeamTasks,
   getUserTasks,
   updateTask,
   updateTaskStatus,
@@ -51,4 +52,10 @@ router.patch(
   updateTaskStatus
 );
 
+router.get(
+  "/team-task",
+  authMiddleware,
+  requireRole(["manager"]),
+  getTeamTasks
+);
 export const taskRoutes = router;

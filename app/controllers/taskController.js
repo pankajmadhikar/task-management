@@ -71,3 +71,16 @@ export const updateTaskStatus = async (req, res) => {
     return responses.serverError(res);
   }
 };
+
+export const getTeamTasks = async (req, res) => {
+  try {
+    const { userId } = req.user;
+    const tasks = await TaskModel.find({ createdBy: userId }).populate(
+      "assignTo",
+      "name email role age"
+    );
+    return responses.success(res, "Task fetched successfully", tasks);
+  } catch (error) {
+    return responses.badRequest(res);
+  }
+};
